@@ -1,0 +1,17 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+    hostname: localhost
+
+spring:
+  application:
+    name: user
+
+jwt:
+  secret: QW5nZWxpbmFUZXJlc2FTYW1wbGVTZWNyZXRLZXlGb3JVc2VjYXNld2hpY2hzaG91bGRiZWdyZWF0ZXJ0aGFuNTIwYml0c2FuZCBoZW5jZSBtYWtpbmdpdGxlbmd0aHkK==
+  #3 minutes validity
+  token:
+    validity: 180000
