@@ -21,5 +21,11 @@ public class Customer {
      
     @Column(nullable = false, length = 30)
     private String password;
+    
+    private String name;
+    
+    private String phoneNumber;
+
+
 }
 
