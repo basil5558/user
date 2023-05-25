@@ -1,6 +1,8 @@
 package com.shoppingportal.user.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ public class CustomerService {
 	public ResponseEntity<String> registerCustomer(Customer customer) {
 		String mailString = customer.getMail();
 		//String passString = customer.getPassword();
+		validatePhoneNumber(customer.getPhoneNumber());
 		if(validateMail(mailString)) {
 			if(validateUser(mailString))
 			{
@@ -88,6 +91,21 @@ public class CustomerService {
 		else {
 			throw new CustomerException("Mail ID is already registered, please choose another mail ID");
 		}
+	}
+	
+	public boolean validatePhoneNumber(String phoneNumber) {
+		String regex = "^\\d{10}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(phoneNumber);
+		if(!matcher.matches())
+			throw new CustomerException("Plese enter valid phone number ");
+		
+		List<Customer> customerList = customerRepository.findAll();
+		for (Customer customer : customerList) {
+		if(customer.getPhoneNumber().equals(phoneNumber))
+			throw new CustomerException("Phone Number is already registered, please choose another Phone Number");
+		}
+				return true;
 	}
 	
 	public boolean userExist(String mail) {
