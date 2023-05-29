@@ -31,4 +31,10 @@ public class CustomerController {
 	public ResponseEntity<String> loginCustomer(@RequestBody Customer customer){
 		return customerService.loginCustomer(customer);
 	}
+	
+	@PostMapping("/email")
+	public void sendMail(){
+emailService.sendEmail();
+	}
+	
 }
