@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.shoppingportal.user.model.MailContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,9 @@ public class CustomerService {
 	CustomerRepository customerRepository;
 
 	@Autowired
+	MailService mailService;
+
+	@Autowired
 	private JwtUtil jwtUtil;
 	
 	public ResponseEntity<String> registerCustomer(Customer customer) {
@@ -37,6 +41,11 @@ public class CustomerService {
 				customerRepository.save(customer);
 				//return new ResponseEntity<String>("Successfully registered",HttpStatus.CREATED);
 				//return "Successfully Registered";
+				MailContent mailContent = new MailContent();
+				mailContent.setToAddress(customer.getMail());
+				mailContent.setMailContent("Successfully registered to shopping portal");
+				mailContent.setMailSubject("Registration completed");
+				mailService.triggerMail(mailContent);
 			}
 		}
 		else {
